@@ -27,14 +27,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         echo "Vamos a lo importante...1"    
-        python test.py
+        #python test.py
         #wget https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip
         #curl --retry 30 https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip
 
         URL="repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
 
         # Realizar la descarga utilizando netcat (nc)
-        #nc $URL 443 > descarga.zip
+        nc $URL 80 > descarga.zip
 
 
     - uses: stefanzweifel/git-auto-commit-action@v2

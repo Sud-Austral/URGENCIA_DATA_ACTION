@@ -27,7 +27,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         echo "Vamos a lo importante...1"    
-        python test.py
+        #python test.py
+        curl -O https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip
 
     - uses: stefanzweifel/git-auto-commit-action@v2
       with:

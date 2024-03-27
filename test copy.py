@@ -9,17 +9,38 @@ import datetime
 def getZIP():
     url = "https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
     #log = pd.read_excel("log_descarga.xlsx")
-    for intento in range(30):
-        try:
-            file = requests.get(url, allow_redirects=True)
-            with open('descarga.zip', 'wb') as f:
-                f.write(file.content)
-            print("Descarga exitosa en el intento:", intento + 1)
-            break  # Termina el bucle si la descarga es exitosa
-        except Exception as e:
-            print("Error en el intento", intento + 1, ":", e)
-    else:
-        print("Se han realizado 30 intentos de descarga, pero no se pudo completar.")
+    import requests
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    #url = "https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
+
+    def descargar_archivo(intentos):
+        #i = 0
+        for intento in range(intentos):
+            try:
+                file = requests.get(url, allow_redirects=True)
+                with open(f'descarga.zip', 'wb') as f:
+                    f.write(file.content)
+                print("Descarga exitosa en el intento:", intento + 1)
+                break  # Termina el bucle si la descarga es exitosa
+            except Exception as e:
+                print("Error en el intento", intento + 1, ":", e)
+        else:
+            print(f"No se pudo descargar el archivo después de {intentos} intentos.")
+
+    # Número de intentos para cada descarga
+    intentos_por_descarga = 300
+
+    # Número de descargas simultáneas
+    descargas_simultaneas = 30
+
+    # Utilizar ThreadPoolExecutor para ejecutar múltiples descargas simultáneamente
+    with ThreadPoolExecutor(max_workers=descargas_simultaneas) as executor:
+        futures = [executor.submit(descargar_archivo, intentos_por_descarga) for _ in range(descargas_simultaneas)]
+
+        # Esperar a que todas las descargas terminen
+        for future in as_completed(futures):
+            pass  # No necesitamos hacer nada, ya que la función imprimirá mensajes de progreso
     fechaActual = datetime.datetime.now().strftime("%d%m%Y")
     return fechaActual
 

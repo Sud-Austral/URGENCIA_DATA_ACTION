@@ -9,8 +9,17 @@ import datetime
 def getZIP():
     url = "https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
     #log = pd.read_excel("log_descarga.xlsx")
-    file = requests.get(url, allow_redirects=True)
-    open('descarga.zip', 'wb').write(file.content)
+    for intento in range(30):
+        try:
+            file = requests.get(url, allow_redirects=True)
+            with open('descarga.zip', 'wb') as f:
+                f.write(file.content)
+            print("Descarga exitosa en el intento:", intento + 1)
+            break  # Termina el bucle si la descarga es exitosa
+        except Exception as e:
+            print("Error en el intento", intento + 1, ":", e)
+    else:
+        print("Se han realizado 30 intentos de descarga, pero no se pudo completar.")
     fechaActual = datetime.datetime.now().strftime("%d%m%Y")
     return fechaActual
 

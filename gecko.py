@@ -7,7 +7,7 @@ from selenium.webdriver.firefox.options import Options
 if __name__ == '__main__':
     url = "https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
     options = Options()
-    options.add_argument('-headless')
+    #options.add_argument('-headless')
 
     # Iniciar el navegador Firefox
     driver = webdriver.Firefox(options=options)

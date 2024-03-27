@@ -5,10 +5,17 @@ import time
 import requests
 import os
 import datetime
+import urllib.request
 
 def getZIP():
     url = "https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
     #log = pd.read_excel("log_descarga.xlsx")
+    
+
+    url = 'https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip'
+    urllib.request.urlretrieve(url, 'descarga.zip')
+    
+    """
     for intento in range(30):
         try:
             file = requests.get(url, allow_redirects=True)
@@ -20,6 +27,7 @@ def getZIP():
             print("Error en el intento", intento + 1, ":", e)
     else:
         print("Se han realizado 30 intentos de descarga, pero no se pudo completar.")
+    """
     fechaActual = datetime.datetime.now().strftime("%d%m%Y")
     return fechaActual
 

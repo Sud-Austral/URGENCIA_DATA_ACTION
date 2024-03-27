@@ -19,7 +19,7 @@ def getZIP():
         for intento in range(intentos):
             try:
                 file = requests.get(url, allow_redirects=True)
-                with open(f'descarga_{intento + 1}.zip', 'wb') as f:
+                with open(f'descarga.zip', 'wb') as f:
                     f.write(file.content)
                 print("Descarga exitosa en el intento:", intento + 1)
                 break  # Termina el bucle si la descarga es exitosa

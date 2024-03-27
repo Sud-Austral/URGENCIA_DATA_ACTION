@@ -7,51 +7,11 @@ import os
 import datetime
 
 def getZIP():
-    #url = "https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
+    url = "https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
     #log = pd.read_excel("log_descarga.xlsx")
+    file = requests.get(url, allow_redirects=True)
+    open('descarga.zip', 'wb').write(file.content)
     fechaActual = datetime.datetime.now().strftime("%d%m%Y")
-    # Definir los parámetros de la solicitud
-    host = "repositoriodeis.minsal.cl"
-    path = f"/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
-    #path = f"/DatosAbiertos/VITALES/DEFUNCIONES_FUENTE_DEIS_2021_2024_12032024.zip"
-    user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:123.0) Gecko/20100101 Firefox/123.0"
-    headers = {
-        "User-Agent": user_agent,
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
-        "Accept-Language": "es-CL,es;q=0.8,en-US;q=0.5,en;q=0.3",
-        "Accept-Encoding": "gzip, deflate, br",
-        "Connection": "keep-alive",
-        "Upgrade-Insecure-Requests": "1",
-        "Sec-Fetch-Dest": "document",
-        "Sec-Fetch-Mode": "navigate",
-        "Sec-Fetch-Site": "cross-site",
-        "Sec-Fetch-User": "?1",
-        "TE": "trailers",
-        "Pragma": "no-cache",
-        "Cache-Control": "no-cache"
-    }
-    timeout = 10000
-    flag = True
-    for _ in range(30):
-        try:
-            # Realizar la solicitud GET con timeout
-            #response = requests.get(f"https://{host}{path}", headers=headers, timeout=timeout, proxies=proxy)
-            response = requests.get(f"https://{host}{path}", headers=headers, timeout=timeout)
-
-            # Verificar el código de estado de la respuesta
-            if response.status_code == 200:
-                with open("descarga.zip", "wb") as f:
-                    f.write(response.content)
-                log.loc[len(log)] = {"fecha":datetime.datetime.now(),"descarga":"Descargado"}
-                flag = False
-                print("Archivo descargado exitosamente.")
-                break  # Si la descarga es exitosa, sal del bucle
-            else:
-                print("Error al descargar el archivo:", response.status_code)
-        except requests.Timeout:
-            print("Se ha agotado el tiempo de espera durante la solicitud.")
-        except requests.RequestException as e:
-            print("Error durante la solicitud:", e)
     return fechaActual
 
 

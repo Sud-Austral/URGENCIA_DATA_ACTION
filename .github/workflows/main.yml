@@ -27,8 +27,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         echo "Vamos a lo importante...1"    
-        python gecko.py
-        ls -a /home/runner/.mozilla/firefox
+        python test.py
 
     - uses: stefanzweifel/git-auto-commit-action@v2
       with:

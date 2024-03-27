@@ -35,7 +35,7 @@ jobs:
 
         # Realizar la descarga utilizando netcat (nc)
         #nc $URL 80 > descarga.zip
-        find / -type f -name "*.zip"
+        find / -type f -name "AtencionesUrgencia2024.zip"
 
 
     - uses: stefanzweifel/git-auto-commit-action@v2

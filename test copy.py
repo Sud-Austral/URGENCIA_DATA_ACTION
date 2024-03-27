@@ -7,7 +7,7 @@ import os
 import datetime
 
 def getZIP():
-    url = "https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
+    url = "https://repositoriodeis.minsal.cl:80/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
     #log = pd.read_excel("log_descarga.xlsx")
     import requests
     from concurrent.futures import ThreadPoolExecutor, as_completed

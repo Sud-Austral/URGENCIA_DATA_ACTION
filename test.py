@@ -8,13 +8,15 @@ import datetime
 import urllib.request
 
 def getZIP():
-    url = "https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
+    #url = "https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
     #log = pd.read_excel("log_descarga.xlsx")
     
 
-    url = 'https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip'
-    urllib.request.urlretrieve(url, 'descarga.zip')
-    
+    url = 'https://repositoriodeis.minsal.cl:80/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip'
+    #urllib.request.urlretrieve(url, 'descarga.zip')
+    file = requests.get(url, allow_redirects=True)
+    with open('descarga.zip', 'wb') as f:
+        f.write(file.content)
     """
     for intento in range(30):
         try:

@@ -46,7 +46,6 @@ jobs:
         run: |
           echo "El trabajo ha fallado, intentando nuevamente..."
           echo "Intento ${{ matrix.retry_count }}"
-          echo "::set-env name=RETRY_COUNT::${{ (fromJSON(env.RETRY_COUNT) + 1 ) }}"
         env:
           RETRY_COUNT: ${{ toJson(1) }}
       

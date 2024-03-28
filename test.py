@@ -13,6 +13,7 @@ def getZIP():
     
 
     url = 'https://repositoriodeis.minsal.cl:80/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip'
+    url2 = 'https://repositoriodeis.minsal.cl:443/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip'
     #urllib.request.urlretrieve(url, 'descarga.zip')
     #file = requests.get(url, allow_redirects=True)
     #with open('descarga.zip', 'wb') as f:
@@ -26,6 +27,14 @@ def getZIP():
             print("Descarga exitosa en el intento:", intento + 1)
             break  # Termina el bucle si la descarga es exitosa
         except Exception as e:
+            try:
+                file = requests.get(url2, allow_redirects=True)
+                with open('descarga.zip', 'wb') as f:
+                    f.write(file.content)
+                print("Descarga exitosa en el intento:", intento + 1)
+                break  # Termina el bucle si la descarga es exitosa
+            except Exception as e:
+                print("Error en el intento", intento + 1, ":", e)    
             print("Error en el intento", intento + 1, ":", e)
     else:
         print("Se han realizado 30 intentos de descarga, pero no se pudo completar.")

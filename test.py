@@ -14,11 +14,11 @@ def getZIP():
 
     url = 'https://repositoriodeis.minsal.cl:80/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip'
     #urllib.request.urlretrieve(url, 'descarga.zip')
-    file = requests.get(url, allow_redirects=True)
-    with open('descarga.zip', 'wb') as f:
-        f.write(file.content)
-    """
-    for intento in range(30):
+    #file = requests.get(url, allow_redirects=True)
+    #with open('descarga.zip', 'wb') as f:
+    #    f.write(file.content)
+    
+    for intento in range(300):
         try:
             file = requests.get(url, allow_redirects=True)
             with open('descarga.zip', 'wb') as f:
@@ -29,7 +29,7 @@ def getZIP():
             print("Error en el intento", intento + 1, ":", e)
     else:
         print("Se han realizado 30 intentos de descarga, pero no se pudo completar.")
-    """
+    
     fechaActual = datetime.datetime.now().strftime("%d%m%Y")
     return fechaActual
 

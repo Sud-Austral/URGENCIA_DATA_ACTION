@@ -1,13 +1,10 @@
 name: Descarga
-# Controls when the workflow will run
-on:
 
-  # Triggers the workflow on push or pull request events but only for the main branch
+on:
   push:
-    branches: [ main ]
+    branches: [main]
   schedule:
-    - cron:  '0 */12 * * *'
-  #  At 00:00 on Saturday
+    - cron: '0 */12 * * *'
 
 jobs:
   build:
@@ -16,47 +13,57 @@ jobs:
       matrix:
         python-version: [3.7]
     steps:
-    - uses: actions/checkout@v2
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.7
-    - name: AUTOMATIZACIÓN
-      run: |
-        echo "Actions Publicadas, Cerradas"
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-            
-        sudo apt install firefox
-        firefox --version
-        wget https://github.com/mozilla/geckodriver/releases/download/v0.31.0/geckodriver-v0.31.0-linux64.tar.gz
-        tar -xvzf geckodriver-v0.31.0-linux64.tar.gz
-        chmod +x geckodriver
-        sudo mv geckodriver /usr/local/bin/
-        echo "Vamos a lo importante...1"
-        python gecko.py
-        
-        #wget https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip
-        #curl --retry 30 https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: AUTOMATIZACIÓN
+        run: |
+          echo "Actions Publicadas, Cerradas"
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          
+          #sudo apt install firefox
+          #firefox --version
+          #wget https://github.com/mozilla/geckodriver/releases/download/v0.31.0/geckodriver-v0.31.0-linux64.tar.gz
+          #tar -xvzf geckodriver-v0.31.0-linux64.tar.gz
+          #chmod +x geckodriver
+          #sudo mv geckodriver /usr/local/bin/
+          #echo "Vamos a lo importante...1"
+          python python.py
+          
+          #wget https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip
+          #curl --retry 30 https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip
+          
+          URL="repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
+          
+          # Realizar la descarga utilizando netcat (nc)
+          #nc $URL 80 > descarga.zip
+          #sudo find / -type f -name "AtencionesUrgencia2024.zip"
+      
+      - name: Handle failure and retry
+        if: failure()
+        run: |
+          echo "El trabajo ha fallado, intentando nuevamente..."
+          echo "Intento ${{ matrix.retry_count }}"
+          echo "::set-env name=RETRY_COUNT::${{ (fromJSON(env.RETRY_COUNT) + 1 ) }}"
+        env:
+          RETRY_COUNT: ${{ toJson(1) }}
+      
+      - name: Check if retry count is less than 10
+        if: failure() && matrix.retry_count < 10
+        continue-on-error: true
+        run: echo "Retrying job..."
+      
+      - name: End workflow if retry count exceeds limit
+        if: failure() && matrix.retry_count >= 10
+        run: echo "Retry limit exceeded. Exiting workflow." && exit 1
 
-        URL="repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip"
-
-        # Realizar la descarga utilizando netcat (nc)
-        #nc $URL 80 > descarga.zip
-        sudo find / -type f -name "AtencionesUrgencia2024.zip"
-
-
-    - uses: stefanzweifel/git-auto-commit-action@v2
-      with:
-        commit_message: "Actualizacion"
-        branch: main
-        # Optional glob pattern of files which should be added to the commit
-        #file_pattern: /
-        # Optional local file path to the repository
-        repository: .
-
-        # Optional commit user and author settings
-        commit_user_name: Actions Bot
-        commit_user_email: lmonsalve22@gmail.com
-        commit_author: DataIntelligence BOT <lmonsalve22@gmail.com>
-        push_options: '--force'
+      - uses: stefanzweifel/git-auto-commit-action@v2
+        with:
+          commit_message: "Actualizacion"
+          branch: main
+          commit_user_name: Actions Bot
+          commit_user_email: lmonsalve22@gmail.com
+          commit_author: DataIntelligence BOT <lmonsalve22@gmail.com>
+          push_options: '--force'

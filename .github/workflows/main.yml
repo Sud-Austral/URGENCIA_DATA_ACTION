@@ -31,7 +31,7 @@ jobs:
           #chmod +x geckodriver
           #sudo mv geckodriver /usr/local/bin/
           #echo "Vamos a lo importante...1"
-          python python.py
+          python test.py
           
           #wget https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip
           #curl --retry 30 https://repositoriodeis.minsal.cl/SistemaAtencionesUrgencia/AtencionesUrgencia2024.zip

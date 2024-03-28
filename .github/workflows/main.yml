@@ -29,6 +29,10 @@ jobs:
             
         sudo apt install firefox
         firefox --version
+        wget https://github.com/mozilla/geckodriver/releases/download/v0.31.0/geckodriver-v0.31.0-linux64.tar.gz
+        tar -xvzf geckodriver*
+        chmod +x geckodriver
+        sudo mv geckodriver /usr/local/bin/
         echo "Vamos a lo importante...1"
         python gecko.py
         

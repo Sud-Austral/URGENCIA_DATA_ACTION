@@ -45,19 +45,7 @@ jobs:
       - name: Handle failure and retry
         if: failure()
         run: |
-          echo "El trabajo ha fallado, intentando nuevamente..."
-          echo "Intento ${{ matrix.retry_count }}"
-        env:
-          RETRY_COUNT: ${{ toJson(1) }}
-      
-      - name: Check if retry count is less than 10
-        if: failure() && matrix.retry_count < 10
-        continue-on-error: true
-        run: echo "Retrying job..."
-      
-      - name: End workflow if retry count exceeds limit
-        if: failure() && matrix.retry_count >= 10
-        run: echo "Retry limit exceeded. Exiting workflow." && exit 1
+          python test.py
 
       - uses: stefanzweifel/git-auto-commit-action@v2
         with:
